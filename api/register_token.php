@@ -2,7 +2,7 @@
 // register_token.php - Menerima dan menyimpan token FCM dari aplikasi Android
 
 // Sertakan file konfigurasi database Anda
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Ambil token yang dikirim dari aplikasi (via metode POST)
 $token = $_POST['token'] ?? '';

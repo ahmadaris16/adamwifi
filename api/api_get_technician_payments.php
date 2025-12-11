@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/../config/config.php';
 header('Content-Type: application/json');
 
 function prev_period() { return date('Y-m', strtotime('first day of last month')); }
