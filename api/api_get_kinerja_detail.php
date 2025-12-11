@@ -2,7 +2,7 @@
 // api_get_kinerja_detail.php - Menyediakan daftar rincian pekerjaan teknisi
 
 header('Content-Type: application/json');
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Ambil username teknisi yang sedang login dari aplikasi
 $username = $_GET['username'] ?? '';

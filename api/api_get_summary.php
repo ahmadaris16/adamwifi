@@ -2,7 +2,7 @@
 // api_get_summary.php - Menyediakan data ringkas untuk dashboard
 
 header('Content-Type: application/json');
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 try {
     // Hitung total pengguna dari tabel pppoe_status

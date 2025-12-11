@@ -3,7 +3,7 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
 
-$path = __DIR__ . '/../config.php';
+$path = __DIR__ . '/../config/config.php';
 if (!file_exists($path)) { die('config.php TIDAK KETEMU di: '.$path); }
 require_once $path;
 

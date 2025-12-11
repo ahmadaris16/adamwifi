@@ -1,12 +1,12 @@
 <?php
 header('Content-Type: application/json');
 
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 try {
     // Siapkan query untuk mengambil semua data dari tabel pppoe_status
     // KODE BARU (URUT NAMA A-Z)
-$stmt = $koneksi->prepare("SELECT username, ip, status, last_update FROM pppoe_status ORDER BY username ASC");
+    $stmt = $koneksi->prepare("SELECT username, ip, status, last_update FROM pppoe_status ORDER BY username ASC");
     $stmt->execute();
     $data_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

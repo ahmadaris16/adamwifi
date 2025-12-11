@@ -2,7 +2,7 @@
 // api_get_notifications.php - Mengambil semua riwayat notifikasi dari database
 
 header('Content-Type: application/json');
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 try {
     // Ambil semua data dari tabel notification_history, urutkan dari yang terbaru

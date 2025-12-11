@@ -2,7 +2,7 @@
 // api_get_kinerja.php - Menyediakan data kinerja untuk dashboard teknisi
 
 header('Content-Type: application/json');
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Ambil username teknisi yang sedang login dari aplikasi
 $username = $_GET['username'] ?? '';

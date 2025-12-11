@@ -1,7 +1,7 @@
 <?php
 // receiver.php — kirim notifikasi saat status BERUBAH (online <-> offline)
 
-require_once __DIR__.'/config.php'; // pakai $koneksi (PDO) & boleh berisi $secret_key
+require_once __DIR__ . '/../config/config.php'; // pakai $koneksi (PDO) & boleh berisi $secret_key
 
 /* ====== KONFIGURASI FCM ====== */
 $service_account_key_file = '/home/adah1658/kunci_firebase/adamwifi-notifikasi-firebase-adminsdk-fbsvc-c1227b1733.json';

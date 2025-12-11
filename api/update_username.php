@@ -2,7 +2,7 @@
 // update_username.php - Mengubah username teknisi
 
 header('Content-Type: application/json');
-require_once 'config.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Ambil data yang dikirim dari aplikasi
 $old_username = $_POST['old_username'] ?? '';
