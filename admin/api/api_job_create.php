@@ -26,7 +26,7 @@ try {
   if (session_status() === PHP_SESSION_ACTIVE) { session_write_close(); }
 
   $qs = http_build_query(['from'=>$job_date, 'to'=>$job_date, 'tech'=>$technician_id]);
-  echo json_encode(['ok'=>true, 'redirect'=>"reports.php?$qs"]);
+  echo json_encode(['ok'=>true, 'redirect'=>"halaman/halaman_job_teknisi.php?$qs"]);
 } catch (Throwable $e) {
   http_response_code(400);
   echo json_encode(['ok'=>false, 'error'=>$e->getMessage()]);

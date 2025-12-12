@@ -13,7 +13,7 @@ $qs = http_build_query(['from'=>$from,'to'=>$to,'tech'=>$tech]);
 
 if (!$ids) {
   $_SESSION['flash'] = 'Tidak ada baris yang dipilih.';
-  header('Location: reports.php?'.$qs); exit;
+  header('Location: halaman/halaman_job_teknisi.php?'.$qs); exit;
 }
 
 if ($action === 'delete') {
@@ -22,8 +22,8 @@ if ($action === 'delete') {
   $del->execute($ids);
   $n = $del->rowCount();
   $_SESSION['flash'] = "Hapus berhasil: $n job.";
-  header('Location: reports.php?'.$qs); exit;
+  header('Location: halaman/halaman_job_teknisi.php?'.$qs); exit;
 }
 
 $_SESSION['flash'] = 'Aksi tidak dikenal.';
-header('Location: reports.php?'.$qs); exit;
+header('Location: halaman/halaman_job_teknisi.php?'.$qs); exit;

@@ -19,7 +19,7 @@
       <span class="menu-icon">🏠</span>
       <span class="menu-text">Dashboard</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'inventaris') ?>" href="index.php?page=inventaris">
+    <a class="menu-item<?= menu_active($page, 'inventaris') ?>" href="halaman/inventaris.php">
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
     </a>

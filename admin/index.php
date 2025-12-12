@@ -1753,7 +1753,7 @@ document.addEventListener('keydown', (e) => {
   // Alt + R for reports
   if (e.altKey && e.key === 'r') {
     e.preventDefault();
-    window.location.href = 'reports.php';
+    window.location.href = 'halaman/halaman_job_teknisi.php';
   }
   
   // Alt + P for PPPoE

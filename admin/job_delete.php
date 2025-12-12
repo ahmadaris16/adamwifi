@@ -26,4 +26,4 @@ $to   = $back_to   ?: $from;
 $tech = $back_tech ?: (int)($row['technician_id'] ?? 0);
 
 $qs = http_build_query(['from'=>$from,'to'=>$to,'tech'=>$tech]);
-header('Location: reports.php?'.$qs); exit;
+  header('Location: halaman/halaman_job_teknisi.php?'.$qs); exit;
