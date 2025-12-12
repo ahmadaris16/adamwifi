@@ -105,7 +105,7 @@ body{
         <span class="menu-icon">↻</span>
         <span class="menu-text">Sinkronkan Pelanggan</span>
       </a>
-      <a class="menu-item" href="../auto_link_pppoe.php">
+      <a class="menu-item" href="../api/auto_link_pppoe.php">
         <span class="menu-icon">⚙</span>
         <span class="menu-text">Auto-Link PPPoE</span>
       </a>
@@ -122,7 +122,7 @@ body{
   <div id="sbMask"></div>
 
   <div class="main-wrapper">
-    <form id="syncForm" method="post" style="display:none">
+    <form id="syncForm" method="post" action="../api/sinkron_pelanggan.php" style="display:none">
       <input type="hidden" name="csrf" value="<?=h($_SESSION['csrf']??'')?>">
       <input type="hidden" name="sync_customers" value="1">
     </form>

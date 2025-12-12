@@ -47,7 +47,7 @@
       <span class="menu-icon">🔄</span>
       <span class="menu-text">Sinkronkan Pelanggan</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'auto_link') ?>" href="index.php?page=auto_link">
+    <a class="menu-item<?= menu_active($page, 'auto_link') ?>" href="api/auto_link_pppoe.php">
       <span class="menu-icon">⚙️</span>
       <span class="menu-text">Auto-Link PPPoE</span>
     </a>
