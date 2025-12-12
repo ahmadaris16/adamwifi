@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 header('Content-Type: text/plain; charset=UTF-8');
 
 echo "__DIR__: ".__DIR__."\n";
-$path = __DIR__ . '/../config/config.php';
+$path = __DIR__ . '/config/config.php';
 echo "config.php exists? ".(file_exists($path)?'YES':'NO')."\n";
 if (file_exists($path)) {
   require_once $path;

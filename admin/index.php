@@ -4,7 +4,7 @@ ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reportin
 require_once __DIR__ . '/auth.php'; require_admin();
 
 // Pakai koneksi DB yang sama dengan receiver.php
-require_once __DIR__ . '/../config/config.php'; // ini mendefinisikan $koneksi (PDO) yg dipakai receiver.php
+require_once __DIR__ . '/config/config.php'; // ini mendefinisikan $koneksi (PDO) yg dipakai receiver.php
 if (isset($koneksi) && $koneksi instanceof PDO) {
   $pdo = $koneksi;           // jadikan $pdo = $koneksi (seragam)
 } elseif (isset($pdo) && $pdo instanceof PDO) {

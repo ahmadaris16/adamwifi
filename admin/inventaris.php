@@ -2,7 +2,7 @@
 // Inventaris (placeholder) - memakai layout yang sama dengan Dashboard
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
 require_once __DIR__ . '/auth.php'; require_admin();
-require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/config/config.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 if (empty($_SESSION['csrf'])) {
