@@ -549,7 +549,7 @@ form#jobForm {
     
     try{
       var fd = new FormData(form);
-      const res = await fetch('api_job_create.php', {
+      const res = await fetch('api/api_job_create.php', {
         method: 'POST',
         body: fd,
         credentials: 'same-origin'
