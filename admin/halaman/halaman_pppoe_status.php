@@ -1,9 +1,9 @@
 <?php
 // pppoe.php — daftar status PPPoE (Semua / Online / Offline)
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
-require_once __DIR__ . '/auth.php'; require_admin();
+require_once __DIR__ . '/../auth.php'; require_admin();
 // Pakai koneksi DB yang sama dengan receiver.php
-require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/../config/config.php';
 if (isset($koneksi) && $koneksi instanceof PDO) {
   $pdo = $koneksi;
 } elseif (isset($pdo) && $pdo instanceof PDO) {

@@ -2,6 +2,8 @@
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(E_ALL);
+// Arahkan error log ke folder logs agar tidak menumpuk di root admin
+ini_set('error_log', __DIR__ . '/../logs/php-error.log');
 
 $path = __DIR__ . '/config.php';
 if (!file_exists($path)) { die('config.php TIDAK KETEMU di: '.$path); }

@@ -374,7 +374,7 @@ select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(251,191,36,.1
 
       <!-- Table Card -->
       <div class="card">
-        <form method="post" action="job_bulk.php" id="bulkForm" class="toolbar">
+        <form method="post" action="../api/job_delete_massal.php" id="bulkForm" class="toolbar">
           <?php csrf_field(); ?>
           <input type="hidden" name="from" value="<?=h($from)?>">
           <input type="hidden" name="to" value="<?=h($to)?>">
@@ -431,7 +431,7 @@ select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(251,191,36,.1
 
         <td class="row-actions">
           <a class="btn secondary" href="edit_job.php?id=<?=$r['id']?>" style="padding:6px 12px;font-size:13px">Edit</a>
-          <form class="inline" method="post" action="job_delete.php" onsubmit="return confirm('Hapus job ini?');">
+          <form class="inline" method="post" action="../api/job_delete.php" onsubmit="return confirm('Hapus job ini?');">
             <?php csrf_field(); ?>
             <input type="hidden" name="id" value="<?=$r['id']?>">
             <input type="hidden" name="back_from" value="<?=h($from)?>">

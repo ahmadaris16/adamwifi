@@ -1430,7 +1430,7 @@ body::after {
 <?php else: ?>
     <div class="stats-grid">
       <!-- KARTU PPPoE -->
-<a class="card card-link card-pppoe" href="pppoe.php?tab=all">
+<a class="card card-link card-pppoe" href="halaman/halaman_pppoe_status.php?tab=all">
   <div class="pppoe-header">
     <div style="display:flex;align-items:center;gap:12px">
       <div class="card-icon">📡</div>
@@ -1759,7 +1759,7 @@ document.addEventListener('keydown', (e) => {
   // Alt + P for PPPoE
   if (e.altKey && e.key === 'p') {
     e.preventDefault();
-    window.location.href = 'pppoe.php?tab=all';
+    window.location.href = 'halaman/halaman_pppoe_status.php?tab=all';
   }
   
   // Alt + C for customers

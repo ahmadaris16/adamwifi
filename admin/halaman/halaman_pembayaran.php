@@ -778,7 +778,7 @@ body::after {
             <button class="btn" type="submit">Terapkan</button>
           </form>
 
-          <form method="post" action="../pembayaran_aksi.php"
+          <form method="post" action="../api/pembayaran_aksi.php"
                 onsubmit="return confirm('Reset semua status periode <?=h(ym_label_id($period))?> ke BELUM BAYAR?');"
                 style="margin-left:auto">
             <?php csrf_field(); ?>
@@ -839,7 +839,7 @@ body::after {
                   <td><?=h($r['name'])?></td>
                   <td><?=h($r['phone'] ?? '-')?></td>
                   <td>
-                    <form class="inline-form" method="post" action="../pembayaran_aksi.php"
+                    <form class="inline-form" method="post" action="../api/pembayaran_aksi.php"
                           onsubmit="return confirm('Tandai SUDAH BAYAR untuk <?=h($r['name'])?>?');">
                       <?php csrf_field(); ?>
                       <input type="hidden" name="action" value="mark_paid">
@@ -889,7 +889,7 @@ body::after {
                   <td><?=h($r['technician'])?></td>
                   <td style="text-align:right"><?=number_format((float)($r['amount'] ?? 0),0,',','.')?></td>
                   <td>
-                    <form class="inline-form" method="post" action="../pembayaran_aksi.php"
+                    <form class="inline-form" method="post" action="../api/pembayaran_aksi.php"
                           onsubmit="return confirm('Batalkan pembayaran untuk <?=h($r['name'])?>?');">
                       <?php csrf_field(); ?>
                       <input type="hidden" name="action" value="mark_unpaid">

@@ -19,7 +19,7 @@
       <span class="menu-icon">🏠</span>
       <span class="menu-text">Dashboard</span>
     </a>
-    <a class="menu-item" href="pppoe.php?tab=all">
+    <a class="menu-item" href="halaman/halaman_pppoe_status.php?tab=all">
       <span class="menu-icon">📡</span>
       <span class="menu-text">Status PPPoE</span>
     </a>
@@ -27,7 +27,7 @@
       <span class="menu-icon">👥</span>
       <span class="menu-text">Daftar Pelanggan</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'inventaris') ?>" href="halaman/inventaris.php">
+    <a class="menu-item<?= menu_active($page, 'inventaris') ?>" href="halaman/halaman_inventaris.php">
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
     </a>

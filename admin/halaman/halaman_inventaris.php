@@ -89,7 +89,7 @@ body{
         <span class="menu-icon">⌂</span>
         <span class="menu-text">Dashboard</span>
       </a>
-      <a class="menu-item" href="inventaris.php">
+      <a class="menu-item" href="halaman_inventaris.php">
         <span class="menu-icon">⧉</span>
         <span class="menu-text">Inventaris</span>
       </a>
@@ -105,7 +105,7 @@ body{
         <span class="menu-icon">↻</span>
         <span class="menu-text">Sinkronkan Pelanggan</span>
       </a>
-      <a class="menu-item" href="auto_link_pppoe.php">
+      <a class="menu-item" href="../auto_link_pppoe.php">
         <span class="menu-icon">⚙</span>
         <span class="menu-text">Auto-Link PPPoE</span>
       </a>
