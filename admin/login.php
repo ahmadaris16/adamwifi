@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/admin_config.php';
+require_once __DIR__ . '/config/persiapan_admin.php';
 
 function q(PDO $pdo,$sql,$p=[]){ $st=$pdo->prepare($sql); $st->execute($p); return $st; }
 function verify_mysql_old_hash($plain,$stored){
@@ -217,7 +217,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;backgrou
       </div>
     </div>
 
-    <div class="copyright">© 2024 AdamWifi. All rights reserved.</div>
+    <div class="copyright">ï¿½ 2024 AdamWifi. All rights reserved.</div>
   </div>
 
   <script>

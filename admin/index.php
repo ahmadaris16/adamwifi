@@ -1473,7 +1473,7 @@ body::after {
 
       <!-- KARTU PELANGGAN -->
      
-<a class="card card-link card-customers" href="customers.php">
+<a class="card card-link card-customers" href="halaman/halaman_pelanggan.php">
   <div class="customers-header">
     <div style="display:flex;align-items:center;gap:12px">
       <div class="card-icon">👥</div>
@@ -1524,7 +1524,7 @@ body::after {
 
 
       <!-- KARTU PEMBAYARAN -->
-<a class="card card-link card-payments" href="payments.php?tab=unpaid&period=<?=h($period_for_dashboard)?>">
+<a class="card card-link card-payments" href="halaman/halaman_pembayaran.php?tab=unpaid&period=<?=h($period_for_dashboard)?>">
   <?php if(!$pay_info['exists']): ?>
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
       <div class="card-icon">💳</div>
@@ -1765,7 +1765,7 @@ document.addEventListener('keydown', (e) => {
   // Alt + C for customers
   if (e.altKey && e.key === 'c') {
     e.preventDefault();
-    window.location.href = 'customers.php';
+    window.location.href = 'halaman/halaman_pelanggan.php';
   }
   
   // Alt + L for logout

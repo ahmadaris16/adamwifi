@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/admin_config.php';
+require_once __DIR__ . '/config/persiapan_admin.php';
 
 function column_exists(PDO $pdo, $table, $column) {
   $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");

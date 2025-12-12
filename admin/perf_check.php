@@ -1,7 +1,7 @@
 <?php
 // perf_check.php — diagnosa cepat hosting (DB, disk I/O, OPcache, DNS)
 ini_set('display_errors',1); error_reporting(E_ALL);
-require_once __DIR__ . '/admin_config.php';
+require_once __DIR__ . '/config/persiapan_admin.php';
 
 function t(){ static $t=null; $now=microtime(true); $d=$t?($now-$t):0; $t=$now; return $d; }
 function pr($k,$v){ printf("%-28s : %s\n",$k,$v); }
@@ -18,7 +18,7 @@ pr('max_execution_time', ini_get('max_execution_time'));
 pr('OPcache enabled', function_exists('opcache_get_status') ? ((opcache_get_status(false)['opcache_enabled']??false)?'YES':'NO') : 'NO EXT');
 echo "\n"; t();
 
-// 1) DB connect (pakai $pdo dari admin_config.php)
+// 1) DB connect (pakai $pdo dari persiapan_admin.php)
 try{
   $pdo->query('SELECT 1'); $db_ok='OK';
 }catch(Throwable $e){ $db_ok='ERR: '.$e->getMessage(); }
