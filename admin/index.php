@@ -35,6 +35,22 @@ function table_exists(PDO $pdo,$t){ try{$pdo->query("SELECT 1 FROM `$t` LIMIT 1"
 function hascol(PDO $pdo,$t,$c){ $s=$pdo->prepare("SHOW COLUMNS FROM `$t` LIKE ?"); $s->execute([$c]); return (bool)$s->fetch(); }
 
 $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
+$page = $_GET['page'] ?? 'dashboard';
+$allowedPages = ['dashboard','inventaris','reports','voucher','auto_link'];
+if (!in_array($page, $allowedPages, true)) { $page = 'dashboard'; }
+$pageTitles = [
+  'dashboard' => 'Dashboard',
+  'inventaris'=> 'Inventaris',
+  'reports'   => 'Job Teknisi',
+  'voucher'   => 'Kelola Voucher',
+  'auto_link' => 'Auto-Link PPPoE',
+];
+$pageTitle = $pageTitles[$page] ?? 'Dashboard';
+
+// helper aktif menu
+function menu_active($current, $name) {
+  return $current === $name ? ' active' : '';
+}
 
 // == Sinkronkan pelanggan dari PPPoE (hanya yang belum ada) ==
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sync_customers'])) {
@@ -258,6 +274,12 @@ if (table_exists($pdo,'notification_history')) {
   position: relative;
   overflow: hidden;
 }
+.menu-item.active {
+  background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(245,158,11,0.08));
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+.menu-item.active .menu-icon { color: var(--primary); }
 
 .menu-item:hover {
   background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(245,158,11,0.05));
@@ -1366,46 +1388,7 @@ body::after {
 <body>
 <div class="wrap">
   <!-- Sidebar Kiri -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <span class="logo" aria-hidden="true">
-  <svg viewBox="0 0 24 24" fill="none">
-    <path d="M2.5 9.5a16 16 0 0119 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M5 12.55a11.8 11.8 0 0114 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M8.5 16.05a7 7 0 017 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M12 20h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-  </svg>
-</span>
-
-      <h1>Adam Wifi</h1>
-    </div>
-    
-    <nav class="sidebar-menu">
-      <a class="menu-item" href="reports.php">
-        <span class="menu-icon">📊</span>
-        <span class="menu-text">Job Teknisi</span>
-      </a>
-      <a class="menu-item" href="voucher_sisa.php">
-        <span class="menu-icon">🎫</span>
-        <span class="menu-text">Kelola Voucher</span>
-      </a>
-      <a class="menu-item" href="#" onclick="document.getElementById('syncForm').submit();return false;">
-        <span class="menu-icon">🔄</span>
-        <span class="menu-text">Sinkronkan Pelanggan</span>
-      </a>
-      <a class="menu-item" href="auto_link_pppoe.php">
-        <span class="menu-icon">🔗</span>
-        <span class="menu-text">Auto-Link PPPoE</span>
-      </a>
-    </nav>
-    
-    <div class="sidebar-footer">
-      <a class="menu-item logout" href="logout.php">
-        <span class="menu-icon">🚪</span>
-        <span class="menu-text">Keluar</span>
-      </a>
-    </div>
-  </aside>
+  <?php include __DIR__ . '/partials/sidebar.php'; ?>
   
   <div id="sbMask"></div>
 
@@ -1434,11 +1417,17 @@ body::after {
       <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <h1 class="page-title">Dashboard</h1>
+  <h1 class="page-title"><?=h($pageTitle)?></h1>
 </div>
 <span class="time" id="clock"></span>
 
     </div>
+<?php if ($page !== 'dashboard'): ?>
+    <div class="card card-link card-pppoe">
+      <div class="card-title" style="margin:0"><?=h($pageTitle)?></div>
+      <div class="mini-muted" style="margin-top:6px">Fitur akan datang.</div>
+    </div>
+<?php else: ?>
     <div class="stats-grid">
       <!-- KARTU PPPoE -->
 <a class="card card-link card-pppoe" href="pppoe.php?tab=all">
@@ -1644,6 +1633,7 @@ body::after {
     </tbody>
   </table>
 </div>
+<?php endif; ?>
   </div>
 </div>
 
