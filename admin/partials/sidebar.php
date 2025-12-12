@@ -15,27 +15,27 @@
   </div>
 
   <nav class="sidebar-menu">
-    <a class="menu-item<?= menu_active($page, 'dashboard') ?>" href="index.php?page=dashboard">
+    <a class="menu-item<?= ($page === 'dashboard' ? ' active' : '') ?>" href="index.php?page=dashboard">
       <span class="menu-icon">🏠</span>
       <span class="menu-text">Dashboard</span>
     </a>
-    <a class="menu-item" href="halaman/halaman_pppoe_status.php?tab=all">
+    <a class="menu-item<?= ($page === 'pppoe' ? ' active' : '') ?>" href="index.php?page=pppoe&tab=all">
       <span class="menu-icon">📡</span>
       <span class="menu-text">Status PPPoE</span>
     </a>
-    <a class="menu-item" href="halaman/halaman_pelanggan.php">
+    <a class="menu-item<?= ($page === 'pelanggan' ? ' active' : '') ?>" href="index.php?page=pelanggan">
       <span class="menu-icon">👥</span>
       <span class="menu-text">Daftar Pelanggan</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'inventaris') ?>" href="halaman/halaman_inventaris.php">
+    <a class="menu-item" href="halaman/halaman_inventaris.php">
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'reports') ?>" href="index.php?page=reports">
+    <a class="menu-item<?= ($page === 'reports' ? ' active' : '') ?>" href="index.php?page=reports">
       <span class="menu-icon">🛠</span>
       <span class="menu-text">Job Teknisi</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'voucher') ?>" href="halaman/halaman_voucher.php">
+    <a class="menu-item<?= ($page === 'voucher' ? ' active' : '') ?>" href="halaman/halaman_voucher.php">
       <span class="menu-icon">🎟️</span>
       <span class="menu-text">Kelola Voucher</span>
     </a>

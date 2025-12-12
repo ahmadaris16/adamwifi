@@ -36,13 +36,15 @@ function hascol(PDO $pdo,$t,$c){ $s=$pdo->prepare("SHOW COLUMNS FROM `$t` LIKE ?
 
 $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
 $page = $_GET['page'] ?? 'dashboard';
-$allowedPages = ['dashboard','inventaris','reports','voucher'];
+$allowedPages = ['dashboard','inventaris','reports','voucher','pppoe','pelanggan'];
 if (!in_array($page, $allowedPages, true)) { $page = 'dashboard'; }
 $pageTitles = [
   'dashboard' => 'Dashboard',
   'inventaris'=> 'Inventaris',
   'reports'   => 'Job Teknisi',
   'voucher'   => 'Kelola Voucher',
+  'pppoe'     => 'Status PPPoE',
+  'pelanggan' => 'Data Pelanggan',
 ];
 $pageTitle = $pageTitles[$page] ?? 'Dashboard';
 
@@ -104,6 +106,28 @@ if (table_exists($pdo,'notification_history')) {
   $recent = $st->fetchAll();
 }
 
+// --- Data untuk halaman Status PPPoE (page=pppoe) ---
+if ($page === 'pppoe') {
+  $TAB = $_GET['tab'] ?? 'all';
+  if (!in_array($TAB, ['all','online','offline'], true)) $TAB = 'all';
+
+  $onlineCondSQL = "LOWER(COALESCE(status,'')) IN ('online','connected','up','1','true')";
+  $has_last = hascol($pdo,$PPPOE_TABLE,'last_update');
+  $orderBy  = $has_last ? "last_update DESC, username ASC" : "username ASC";
+
+  $tot = (int)$pdo->query("SELECT COUNT(*) FROM `$PPPOE_TABLE`")->fetchColumn();
+  $on  = (int)$pdo->query("SELECT COUNT(*) FROM `$PPPOE_TABLE` WHERE $onlineCondSQL")->fetchColumn();
+  $off = max(0, $tot - $on);
+
+  $where = '';
+  if ($TAB === 'online')  $where = "WHERE $onlineCondSQL";
+  if ($TAB === 'offline') $where = "WHERE NOT($onlineCondSQL)";
+
+  $cols = $has_last ? "username, ip, status, last_update" : "username, ip, status";
+  $sql  = "SELECT $cols FROM `$PPPOE_TABLE` $where ORDER BY $orderBy";
+  $rows = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
 <!doctype html>
 <html lang="id">
@@ -155,6 +179,10 @@ if (table_exists($pdo,'notification_history')) {
 
     <?php if ($page === "dashboard"): ?>
       <?php include __DIR__ . "/halaman/halaman_dashboard.php"; ?>
+    <?php elseif ($page === "pppoe"): ?>
+      <?php include __DIR__ . "/halaman/halaman_pppoe_status.php"; ?>
+    <?php elseif ($page === "pelanggan"): ?>
+      <?php include __DIR__ . "/halaman/halaman_pelanggan.php"; ?>
     <?php else: ?>
       <div class="card card-link card-pppoe">
         <div class="card-title" style="margin:0"><?=h($pageTitle)?></div>

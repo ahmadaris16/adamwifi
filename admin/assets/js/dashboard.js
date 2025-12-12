@@ -95,13 +95,13 @@ document.addEventListener('keydown', (e) => {
   // Alt + P for PPPoE
   if (e.altKey && e.key === 'p') {
     e.preventDefault();
-    window.location.href = 'halaman/halaman_pppoe_status.php?tab=all';
+    window.location.href = 'index.php?page=pppoe&tab=all';
   }
   
   // Alt + C for customers
   if (e.altKey && e.key === 'c') {
     e.preventDefault();
-    window.location.href = 'halaman/halaman_pelanggan.php';
+    window.location.href = 'index.php?page=pelanggan';
   }
   
   // Alt + L for logout

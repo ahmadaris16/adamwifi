@@ -3,7 +3,7 @@
 ?>
 <div class="stats-grid">
   <!-- KARTU PPPoE -->
-  <a class="card card-link card-pppoe" href="halaman/halaman_pppoe_status.php?tab=all">
+  <a class="card card-link card-pppoe" href="index.php?page=pppoe&tab=all">
     <div class="pppoe-header">
       <div style="display:flex;align-items:center;gap:12px">
         <div class="card-icon">📡</div>
@@ -44,7 +44,7 @@
   </a>
 
   <!-- KARTU PELANGGAN -->
-  <a class="card card-link card-customers" href="halaman/halaman_pelanggan.php">
+  <a class="card card-link card-customers" href="index.php?page=pelanggan">
     <div class="customers-header">
       <div style="display:flex;align-items:center;gap:12px">
         <div class="card-icon">👥</div>

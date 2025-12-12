@@ -654,7 +654,7 @@ body::after {
     <div class="topbar-content">
       <div class="title">Detail Pelanggan</div>
       <div class="actions">
-        <a class="btn secondary" href="halaman_pelanggan.php">← Kembali ke Pelanggan</a>
+        <a class="btn secondary" href="index.php?page=pelanggan">← Kembali ke Pelanggan</a>
         <a class="xbtn" href="index.php">Dashboard</a>
       </div>
     </div>
@@ -735,7 +735,7 @@ body::after {
 
           <div class="form-actions">
             <button class="btn" id="saveBtn" type="submit">Simpan Perubahan</button>
-            <a class="xbtn" href="halaman_pelanggan.php">Batal</a>
+            <a class="xbtn" href="index.php?page=pelanggan">Batal</a>
           </div>
         </form>
       </div>
