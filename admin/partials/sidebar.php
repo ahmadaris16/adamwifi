@@ -19,6 +19,14 @@
       <span class="menu-icon">🏠</span>
       <span class="menu-text">Dashboard</span>
     </a>
+    <a class="menu-item" href="pppoe.php?tab=all">
+      <span class="menu-icon">📡</span>
+      <span class="menu-text">Status PPPoE</span>
+    </a>
+    <a class="menu-item" href="halaman/halaman_pelanggan.php">
+      <span class="menu-icon">👥</span>
+      <span class="menu-text">Daftar Pelanggan</span>
+    </a>
     <a class="menu-item<?= menu_active($page, 'inventaris') ?>" href="halaman/inventaris.php">
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
@@ -27,9 +35,13 @@
       <span class="menu-icon">🛠</span>
       <span class="menu-text">Job Teknisi</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'voucher') ?>" href="index.php?page=voucher">
+    <a class="menu-item<?= menu_active($page, 'voucher') ?>" href="halaman/halaman_voucher.php">
       <span class="menu-icon">🎟️</span>
       <span class="menu-text">Kelola Voucher</span>
+    </a>
+    <a class="menu-item" href="halaman/halaman_pembayaran.php">
+      <span class="menu-icon">💰</span>
+      <span class="menu-text">Keuangan</span>
     </a>
     <a class="menu-item" href="#" onclick="document.getElementById('syncForm').submit();return false;">
       <span class="menu-icon">🔄</span>
