@@ -1,5 +1,5 @@
 <?php
-// Dashboard — PPPoE + Pelanggan + Pembayaran (semua kartu bisa diklik)
+// Dashboard ??? PPPoE + Pelanggan + Pembayaran (semua kartu bisa diklik)
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
 require_once __DIR__ . '/auth.php'; require_admin();
 
@@ -142,8 +142,9 @@ if ($page === 'pppoe') {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard — AdamWifi Admin</title>
-<link rel="stylesheet" href="assets/css/css_global.css">
+<title>Panel Adam Wifi</title>
+<?php $css_ver = file_exists(__DIR__.'/assets/css/css_global.css') ? filemtime(__DIR__.'/assets/css/css_global.css') : time(); ?>
+<link rel="stylesheet" href="assets/css/css_global.css?v=<?= $css_ver ?>">
 
 </head>
 <body>
@@ -164,14 +165,6 @@ if ($page === 'pppoe') {
     <input type="hidden" name="csrf" value="<?=h($_SESSION['csrf']??'')?>">
   </form>
 
-
-
-  <?php if($flash): ?>
-  <div class="info" role="status" aria-live="polite">
-    <?=h($flash)?>
-    <button class="close" aria-label="Tutup">x</button>
-  </div>
-<?php endif; ?>
 
 
   <div class="main-content">
@@ -216,8 +209,75 @@ if ($page === 'pppoe') {
       </div>
 
     <?php endif; ?>
+</div>
+</div>
+
+<div class="g-toast-wrap" id="gToastWrap" aria-live="polite" aria-atomic="true" style="display:none">
+  <div class="g-toast" id="gToastCard">
+    <div class="g-toast-icon" id="gToastIcon">???</div>
+    <div class="g-toast-text" id="gToastText">Flash</div>
   </div>
 </div>
+
+<script>
+(function(){
+  var wrap = document.getElementById("gToastWrap");
+  var card = document.getElementById("gToastCard");
+  var text = document.getElementById("gToastText");
+  var icon = document.getElementById("gToastIcon");
+  var timer;
+
+  window.showToast = function(msg, type){
+    if(!wrap || !card || !text || !icon) return;
+    clearTimeout(timer);
+    card.classList.remove("error");
+    icon.textContent = "???";
+    if(type === "danger" || type === "error"){
+      card.classList.add("error");
+      icon.textContent = "!";
+    }
+    text.textContent = msg || "";
+    wrap.style.display = "flex";
+    requestAnimationFrame(function(){ card.classList.add("show"); });
+    timer = setTimeout(function(){
+      card.classList.remove("show");
+      setTimeout(function(){ wrap.style.display="none"; }, 250);
+    }, 2600);
+  };
+})();
+</script>
+
+<style>
+.g-toast-wrap{
+  position:fixed; left:50%; bottom:18px;
+  transform:translateX(-50%);
+  z-index:2200; pointer-events:none;
+  display:none;
+}
+.g-toast{
+  min-width:240px; max-width:340px;
+  background:linear-gradient(135deg, rgba(30,41,59,0.95), rgba(15,23,42,0.95));
+  border:1px solid rgba(16,185,129,0.4);
+  border-radius:14px;
+  padding:12px 14px;
+  color:#d1fae5;
+  box-shadow:0 18px 40px rgba(0,0,0,0.35), 0 0 18px rgba(16,185,129,0.18);
+  display:flex; gap:10px; align-items:flex-start;
+  opacity:0; transform:translateY(10px) scale(.97);
+  transition:opacity .25s ease, transform .25s ease;
+  pointer-events:auto;
+}
+.g-toast.show{ opacity:1; transform:translateY(0) scale(1); }
+.g-toast-icon{
+  width:26px; height:26px; border-radius:9px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(16,185,129,0.12); color:#34d399; border:1px solid rgba(16,185,129,0.45);
+  flex-shrink:0; font-weight:800;
+}
+.g-toast.error{ border-color:rgba(239,68,68,0.55); box-shadow:0 18px 40px rgba(0,0,0,0.35), 0 0 18px rgba(239,68,68,0.2); color:#ffe4e6; }
+.g-toast.error .g-toast-icon{ background:rgba(239,68,68,0.14); color:#fecaca; border-color:rgba(239,68,68,0.6); }
+.g-toast-text{ font-weight:700; line-height:1.4; }
+</style>
 
 <script src="assets/js/dashboard.js"></script>
 <script>
@@ -265,11 +325,32 @@ if ($page === 'pppoe') {
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
 
   const mq = window.matchMedia('(min-width:769px)');
-  const handleMQ = e => { if (e.matches) close(); };
-  if (mq.addEventListener) mq.addEventListener('change', handleMQ);
-  else mq.addListener(handleMQ);
+const handleMQ = e => { if (e.matches) close(); };
+if (mq.addEventListener) mq.addEventListener('change', handleMQ);
+else mq.addListener(handleMQ);
 })();
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var flash = null;
+  try { flash = <?= $flash ? json_encode($flash, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) : 'null' ?>; }
+  catch(e){ flash = <?= $flash ? json_encode($flash) : 'null' ?>; }
+  if(!flash) return;
+  var wrap = document.getElementById('gToastWrap');
+  var card = document.getElementById('gToastCard');
+  var text = document.getElementById('gToastText');
+  if(!wrap || !card || !text) return;
+  text.textContent = flash;
+  wrap.style.display = 'flex';
+  requestAnimationFrame(function(){ card.classList.add('show'); });
+  setTimeout(function(){
+    card.classList.remove('show');
+    setTimeout(function(){ wrap.style.display='none'; }, 250);
+  }, 2600);
+});
 </script>
 
 </body>
 </html>
+
+

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Partial Pembayaran (ikut layout index.php)
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
 if (!function_exists('h')) { function h($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); } }
@@ -26,7 +26,6 @@ function qs(array $merge){
 $tab    = $_GET['tab'] ?? 'unpaid'; // unpaid|paid|collectors
 $tech   = trim($_GET['tech'] ?? '');
 $period = (isset($_GET['period']) && ym_valid($_GET['period'])) ? $_GET['period'] : prev_period();
-$flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
 
 $paid_rows = []; $unpaid_rows = []; $collectors = []; $collector_paid_rows = []; $collector_groups = [];
 try {
@@ -214,47 +213,9 @@ $admin_name = $_SESSION['admin_user']['username'] ?? 'admin';
 }
 .payments-page .collector-section{ display:none; }
 .payments-page .collector-section.active{ display:block; }
-.toast-center{
-  position:fixed; right:18px; bottom:18px;
-  display:flex; align-items:flex-end; justify-content:flex-end;
-  pointer-events:none;
-  z-index:1500;
-}
-.toast-card{
-  min-width:240px;
-  max-width:320px;
-  background:linear-gradient(135deg, rgba(30,41,59,0.95), rgba(15,23,42,0.95));
-  border:1px solid rgba(251,191,36,0.35);
-  border-radius:14px;
-  padding:12px 14px;
-  color:var(--light);
-  box-shadow:0 16px 40px rgba(0,0,0,0.35), 0 0 22px rgba(251,191,36,0.14);
-  opacity:0; transform:translateY(10px) scale(.97);
-  transition:opacity .25s ease, transform .25s ease;
-  display:flex; gap:10px; align-items:flex-start;
-  pointer-events:auto;
-}
-.toast-card.show{ opacity:1; transform:translateY(0) scale(1); }
-.toast-icon{
-  width:26px; height:26px; border-radius:9px;
-  display:inline-flex; align-items:center; justify-content:center;
-  background:rgba(251,191,36,0.12); color:var(--primary); border:1px solid rgba(251,191,36,0.35);
-  flex-shrink:0;
-  font-weight:800;
-}
-.toast-card.error{ border-color:rgba(239,68,68,0.5); box-shadow:0 16px 40px rgba(0,0,0,0.35), 0 0 22px rgba(239,68,68,0.18); }
-.toast-card.error .toast-icon{ background:rgba(239,68,68,0.14); color:#fecaca; border-color:rgba(239,68,68,0.55); }
-.toast-text{ font-weight:700; line-height:1.4; }
 </style>
 
 <div class="card payments-page">
-  <?php if($flash): ?>
-    <div class="info" id="flash" style="margin-top:0">
-      <?=h($flash)?>
-      <button class="close" aria-label="Tutup">x</button>
-    </div>
-  <?php endif; ?>
-
   <div class="toolbar">
     <form method="get">
       <input type="hidden" name="page" value="payments">
@@ -317,7 +278,7 @@ $admin_name = $_SESSION['admin_user']['username'] ?? 'admin';
           <tr>
             <td colspan="3">
               <div style="text-align:center;padding:40px">
-                <div style="font-size:48px;margin-bottom:16px;opacity:0.3">âœ…</div>
+                <div style="font-size:48px;margin-bottom:16px;opacity:0.3">✅</div>
                 <div style="color:var(--gray);font-size:16px">Semua pelanggan sudah membayar</div>
                 <div style="color:var(--gray);font-size:14px;margin-top:8px">Periode <?=h(ym_label_id($period))?></div>
               </div>
@@ -366,7 +327,7 @@ $admin_name = $_SESSION['admin_user']['username'] ?? 'admin';
           <tr>
             <td colspan="5">
               <div style="text-align:center;padding:40px">
-                <div style="font-size:48px;margin-bottom:16px;opacity:0.3">ðŸ§¾</div>
+                <div style="font-size:48px;margin-bottom:16px;opacity:0.3">🧾</div>
                 <div style="color:var(--gray);font-size:16px">Belum ada pembayaran</div>
                 <div style="color:var(--gray);font-size:14px;margin-top:8px">Periode <?=h(ym_label_id($period))?></div>
               </div>
@@ -402,7 +363,7 @@ $admin_name = $_SESSION['admin_user']['username'] ?? 'admin';
     <div class="collector-panel">
       <?php if(!$collectors): ?>
         <div style="text-align:center;padding:40px;opacity:0.8">
-          <div style="font-size:48px;margin-bottom:16px;opacity:0.3">dY`￝</div>
+          <div style="font-size:48px;margin-bottom:16px;opacity:0.3">dY`?</div>
           <div style="color:var(--gray);font-size:16px">Belum ada data penanggung jawab</div>
           <div style="color:var(--gray);font-size:14px;margin-top:8px">Periode <?=h(ym_label_id($period))?></div>
         </div>
@@ -453,91 +414,24 @@ $admin_name = $_SESSION['admin_user']['username'] ?? 'admin';
         <?php endforeach; ?>
       <?php endif; ?>
     </div>
-  <?php endif; ?>
-
-<div class="toast-center" id="toastWrap" aria-live="polite" aria-atomic="true" style="display:none">
-  <div class="toast-card" id="toastCard">
-    <div class="toast-icon" id="toastIcon">✓</div>
-    <div class="toast-text" id="toastText">Berhasil</div>
-  </div>
-</div>
+<?php endif; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-  setTimeout(function(){
-    var f=document.getElementById('flash');
-    if(f){ f.style.opacity='0'; f.style.transform='translateY(-10px)'; setTimeout(function(){ f.remove(); }, 300); }
-  }, 6000);
-
-  var rows=document.querySelectorAll('.tbl tbody tr');
-  rows.forEach(function(tr,i){
+  var rows = document.querySelectorAll('.tbl tbody tr');
+  rows.forEach(function(tr, i){
     if(!tr.style.animation && !tr.querySelector('td[colspan]')){
-      tr.style.animation='fadeInUp .35s ease-out both';
-      tr.style.animationDelay=(0.03*i+0.12)+'s';
+      tr.style.animation = 'fadeInUp .35s ease-out both';
+      tr.style.animationDelay = (0.03 * i + 0.12) + 's';
     }
-  });
-
-  // Toast helpers
-  var toastWrap = document.getElementById('toastWrap');
-  var toastCard = document.getElementById('toastCard');
-  var toastIcon = document.getElementById('toastIcon');
-  var toastText = document.getElementById('toastText');
-  var toastTimer;
-  function showToast(msg, ok){
-    if(!toastWrap || !toastCard) return;
-    toastWrap.style.display = 'flex';
-    toastCard.classList.remove('error','show');
-    if(ok === false) toastCard.classList.add('error');
-    if(toastIcon) toastIcon.textContent = ok === false ? '!' : '✓';
-    if(toastText) toastText.textContent = msg || (ok === false ? 'Terjadi kesalahan' : 'Berhasil');
-    void toastCard.offsetWidth; // reflow
-    requestAnimationFrame(function(){ toastCard.classList.add('show'); });
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){
-      toastCard.classList.remove('show');
-      setTimeout(function(){
-        if(toastWrap) toastWrap.style.display = 'none';
-      }, 220);
-    }, 2200);
-  }
-
-  // Intercept form aksi pembayaran -> AJAX + toast
-  document.querySelectorAll('form[action*=\"pembayaran_aksi.php\"]').forEach(function(form){
-    var confirmMsg = null;
-    var attr = form.getAttribute('onsubmit');
-    if(attr){
-      var m = attr.match(/confirm\\(['\"](.+?)['\"]\\)/);
-      if(m && m[1]) confirmMsg = m[1];
-      form.removeAttribute('onsubmit');
-    }
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      if(confirmMsg && !window.confirm(confirmMsg)) return;
-      var btn = form.querySelector('button[type=\"submit\"]');
-      if(btn) btn.disabled = true;
-      fetch(form.getAttribute('action') || 'api/pembayaran_aksi.php', {
-        method:'POST',
-        body:new FormData(form),
-        headers:{'X-Requested-With':'XMLHttpRequest'}
-      })
-      .then(function(r){ return r.json(); })
-      .then(function(res){
-        var ok = res && res.ok !== false;
-        showToast(res && res.message ? res.message : (ok ? 'Berhasil' : 'Gagal'), ok);
-        setTimeout(function(){ location.reload(); }, 800);
-      })
-      .catch(function(err){
-        showToast(err && err.message ? err.message : 'Terjadi kesalahan', false);
-        if(btn) btn.disabled = false;
-      });
-    });
   });
 
   var tabBtns = document.querySelectorAll('.collector-tab');
   var sections = document.querySelectorAll('.collector-section');
   function activate(tech){
     sections.forEach(function(sec){
-      sec.classList.toggle('active', sec.getAttribute('data-tech') === tech);
+      var active = sec.getAttribute('data-tech') === tech;
+      sec.classList.toggle('active', active);
     });
     tabBtns.forEach(function(btn){
       var active = btn.getAttribute('data-tech') === tech;
@@ -548,7 +442,9 @@ document.addEventListener('DOMContentLoaded', function(){
   if(tabBtns.length){
     activate(tabBtns[0].getAttribute('data-tech'));
     tabBtns.forEach(function(btn){
-      btn.addEventListener('click', function(){ activate(btn.getAttribute('data-tech')); });
+      btn.addEventListener('click', function(){
+        activate(btn.getAttribute('data-tech'));
+      });
     });
   }
 });

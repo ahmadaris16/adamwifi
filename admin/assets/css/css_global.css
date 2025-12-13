@@ -1189,6 +1189,20 @@ body::after {
   background:rgba(30,41,59,0.5);
   color:var(--light);
   font-family:inherit;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.voucher-row input[readonly]{
+  background:linear-gradient(135deg, rgba(251,191,36,0.08), rgba(30,41,59,0.25));
+  border:1px dashed rgba(251,191,36,0.55);
+  color:#fbbf24;
+  font-weight:800;
+  cursor:not-allowed;
+}
+.voucher-row input[type="date"]:focus,
+.voucher-row input[type="number"]:focus{
+  border-color: rgba(251,191,36,0.35);
+  box-shadow: 0 0 0 2px rgba(251,191,36,0.1);
+  outline:none;
 }
 .voucher-actions{ margin-top:10px; display:flex; justify-content:flex-end; }
 .voucher-actions .btn{ height:40px; display:inline-flex; align-items:center; }

@@ -275,9 +275,9 @@ foreach ($rows as $r){
 
   <!-- Pills filter (eksklusif) -->
   <div class="summary">
-    <a class="pill <?= $active_filter==='all'?'active':'' ?>" href="<?= h(qurl(['gratis'=>null, 'status'=>null,'unlinked'=>null])) ?>"><span class="dot warn"></span> Semua: <strong><?=number_format($stat_total)?></strong></a>
-    <a class="pill <?= $active_filter==='bill'?'active':'' ?>" href="<?= h(qurl(['gratis'=>'0','unlinked'=>null,'status'=>null])) ?>"><span class="dot on"></span> Ditagih: <strong><?=number_format($stat_bill)?></strong></a>
-    <a class="pill <?= $active_filter==='free'?'active':'' ?>" href="<?= h(qurl(['gratis'=>'1','unlinked'=>null,'status'=>null])) ?>"><span class="dot off"></span> Gratis: <strong><?=number_format($stat_free)?></strong></a>
+    <a class="pill <?= $active_filter==='all'?'active':'' ?>" href="<?= h(qurl(['gratis'=>null, 'status'=>null,'unlinked'=>null])) ?>"><span class="dot warn"></span> Semua: <strong id="pillTotal"><?=number_format($stat_total)?></strong></a>
+    <a class="pill <?= $active_filter==='bill'?'active':'' ?>" href="<?= h(qurl(['gratis'=>'0','unlinked'=>null,'status'=>null])) ?>"><span class="dot on"></span> Ditagih: <strong id="pillBill"><?=number_format($stat_bill)?></strong></a>
+    <a class="pill <?= $active_filter==='free'?'active':'' ?>" href="<?= h(qurl(['gratis'=>'1','unlinked'=>null,'status'=>null])) ?>"><span class="dot off"></span> Gratis: <strong id="pillFree"><?=number_format($stat_free)?></strong></a>
     <a class="pill <?= $active_filter==='unlinked'?'active':'' ?>" href="<?= h(qurl(['unlinked'=>'1','status'=>null,'gratis'=>null ])) ?>"><span class="dot warn"></span> Unlinked: <strong><?=number_format($stat_unlinked)?></strong></a>
     <a class="pill <?= $active_filter==='online'?'active':'' ?>" href="<?= h(qurl(['status'=>'online','unlinked'=>null,'gratis'=>null])) ?>"><span class="dot on"></span> Online: <strong><?=number_format($stat_on)?></strong></a>
     <a class="pill <?= $active_filter==='offline'?'active':'' ?>" href="<?= h(qurl(['status'=>'offline','unlinked'=>null,'gratis'=>null])) ?>"><span class="dot off"></span> Offline: <strong><?=number_format($stat_off)?></strong></a>
@@ -406,6 +406,8 @@ foreach ($rows as $r){
   var custForm = document.getElementById('custForm');
   var activeRow = null;
   var timer;
+  var pillBill = document.getElementById('pillBill');
+  var pillFree = document.getElementById('pillFree');
   if (!form || !input || !tableWrap) return;
 
   // Jangan reload penuh saat submit
@@ -456,6 +458,29 @@ foreach ($rows as $r){
   }
   bindRows();
 
+  function refreshCounts(){
+    pillBill = document.getElementById('pillBill');
+    pillFree = document.getElementById('pillFree');
+  }
+
+  async function refreshCustomers(){
+    try{
+      var res = await fetch(window.location.href, { headers:{'X-Requested-With':'XMLHttpRequest'} });
+      var html = await res.text();
+      var dom = new DOMParser().parseFromString(html, 'text/html');
+      var newWrap = dom.querySelector('.table-wrap');
+      var curWrap = document.querySelector('.table-wrap');
+      if (newWrap && curWrap) curWrap.innerHTML = newWrap.innerHTML;
+      var newSummary = dom.querySelector('.summary');
+      var curSummary = document.querySelector('.summary');
+      if (newSummary && curSummary) curSummary.innerHTML = newSummary.innerHTML;
+      refreshCounts();
+      bindRows();
+    }catch(err){
+      window.location.reload();
+    }
+  }
+
   function fetchTable(val){
     var url = new URL(window.location.href);
     url.searchParams.set('page','pelanggan');
@@ -504,6 +529,7 @@ foreach ($rows as $r){
     custForm.addEventListener('submit', function(e){
       e.preventDefault();
       if(!activeRow || !idInput.value){ return; }
+      var prevBillable = activeRow.dataset.billable;
       if(saveBtn){
         saveBtn.disabled = true;
         saveBtn.textContent = 'Menyimpan...';
@@ -530,7 +556,24 @@ foreach ($rows as $r){
         if(cellPhone){ cellPhone.textContent = phoneVal || '-'; }
         setBill(billEl, activeRow.dataset.billable);
         freeInput.checked = activeRow.dataset.billable === '0';
+        if (pillBill && pillFree && prevBillable !== activeRow.dataset.billable) {
+          var billNum = parseInt((pillBill.textContent||'0').replace(/[^0-9]/g,''),10) || 0;
+          var freeNum = parseInt((pillFree.textContent||'0').replace(/[^0-9]/g,''),10) || 0;
+          if (activeRow.dataset.billable === '0') {
+            billNum = Math.max(0, billNum - 1);
+            freeNum += 1;
+          } else {
+            freeNum = Math.max(0, freeNum - 1);
+            billNum += 1;
+          }
+          pillBill.textContent = billNum.toLocaleString('id-ID');
+          pillFree.textContent = freeNum.toLocaleString('id-ID');
+        }
+        if (window.showToast) {
+          window.showToast(res.message || 'Perubahan disimpan.', 'success');
+        }
         closeModal();
+        refreshCustomers();
       })
       .catch(function(err){
         if(alertBox){

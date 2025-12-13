@@ -11,25 +11,6 @@ $DB_HOST='localhost'; $DB_USER='adah1658_admin'; $DB_PASS='Nuriska16'; $DB_NAME=
 $mysqli = @new mysqli($DB_HOST,$DB_USER,$DB_PASS,$DB_NAME);
 if ($mysqli->connect_errno) { http_response_code(500); die('DB error'); }
 
-// Update data
-if ($_SERVER['REQUEST_METHOD']==='POST') {
-  verify_csrf();
-  $nama    = $_POST['nama'] ?? '';
-  $tanggal = $_POST['tanggal'] ?? '';
-  $total   = (int)($_POST['total'] ?? 0);
-  $v4      = (int)($_POST['voucher_4_jam'] ?? 0);
-  $v1d     = (int)($_POST['voucher_1_hari'] ?? 0);
-  $v1b     = (int)($_POST['voucher_1_bulan'] ?? 0);
-
-  $stmt = $mysqli->prepare("UPDATE voucher_sisa SET tanggal=?, total=?, voucher_4_jam=?, voucher_1_hari=?, voucher_1_bulan=? WHERE nama=?");
-  if ($stmt){
-    $stmt->bind_param("siiiis", $tanggal, $total, $v4, $v1d, $v1b, $nama);
-    $stmt->execute();
-  }
-  $_SESSION['flash'] = 'Perubahan tersimpan.';
-  header('Location: index.php?page=voucher'); exit;
-}
-
 // Ambil data
 $sql = "SELECT nama, DATE_FORMAT(tanggal,'%Y-%m-%d') AS tanggal, total, voucher_4_jam, voucher_1_hari, voucher_1_bulan
         FROM voucher_sisa ORDER BY FIELD(nama,'Ervianto','Nyoto','Anik'), nama";
@@ -51,7 +32,7 @@ if (session_status()===PHP_SESSION_ACTIVE) { session_write_close(); }
 
   <div class="voucher-grid">
     <?php foreach($rows as $idx => $r): ?>
-      <form class="card voucher-card" method="post" action="index.php?page=voucher" style="animation-delay: <?= 0.1 + ($idx * 0.08) ?>s">
+      <form class="card voucher-card voucher-form" method="post" action="api/voucher_update.php" style="animation-delay: <?= 0.1 + ($idx * 0.08) ?>s">
         <?php csrf_field(); ?>
         <input type="hidden" name="nama" value="<?= h($r['nama']) ?>">
 
@@ -66,7 +47,7 @@ if (session_status()===PHP_SESSION_ACTIVE) { session_write_close(); }
 
         <div class="voucher-row">
           <label>Total Voucher</label>
-          <input type="number" name="total" value="<?= (int)$r['total'] ?>" min="0">
+          <input type="number" name="total" value="<?= (int)$r['total'] ?>" min="0" readonly>
         </div>
 
         <div class="voucher-row">
@@ -99,3 +80,51 @@ if (session_status()===PHP_SESSION_ACTIVE) { session_write_close(); }
     <?php endif; ?>
   </div>
 </div>
+
+<script>
+(function(){
+  var forms = document.querySelectorAll('.voucher-form');
+  function toInt(val){ var n = parseInt(val,10); return isNaN(n)?0:n; }
+  function syncTotal(form){
+    if(!form) return;
+    var totalEl = form.querySelector('input[name="total"]');
+    var v4  = form.querySelector('input[name="voucher_4_jam"]');
+    var v1d = form.querySelector('input[name="voucher_1_hari"]');
+    var v1b = form.querySelector('input[name="voucher_1_bulan"]');
+    if(!totalEl) return;
+    var sum = toInt(v4 && v4.value) + toInt(v1d && v1d.value) + toInt(v1b && v1b.value);
+    totalEl.value = sum;
+  }
+  forms.forEach(function(f){
+    ['voucher_4_jam','voucher_1_hari','voucher_1_bulan'].forEach(function(name){
+      var input = f.querySelector('input[name="'+name+'"]');
+      if (input){ input.addEventListener('input', function(){ syncTotal(f); }); }
+    });
+    syncTotal(f);
+
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = f.querySelector('button[type="submit"]');
+      var original = btn ? btn.textContent : '';
+      if (btn){ btn.disabled = true; btn.textContent = 'Menyimpan...'; }
+      syncTotal(f);
+      var fd = new FormData(f);
+      fetch(f.action, { method:'POST', body: fd, headers:{'X-Requested-With':'XMLHttpRequest'} })
+        .then(async function(r){
+          var isJson = (r.headers.get('content-type') || '').includes('application/json');
+          var data = isJson ? await r.json() : { ok:false, message: await r.text() };
+          if(!r.ok || !data.ok){
+            throw new Error(data && data.message ? data.message : 'Gagal menyimpan');
+          }
+          if (window.showToast) window.showToast(data.message || 'Tersimpan.', 'success');
+        })
+        .catch(function(err){
+          if (window.showToast) window.showToast(err.message || 'Gagal menyimpan', 'danger');
+        })
+        .finally(function(){
+          if (btn){ btn.disabled = false; btn.textContent = original || 'Simpan Perubahan'; }
+        });
+    });
+  });
+})();
+</script>
