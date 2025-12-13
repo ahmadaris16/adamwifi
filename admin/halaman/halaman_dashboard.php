@@ -94,7 +94,7 @@
   </a>
 
   <!-- KARTU PEMBAYARAN -->
-  <a class="card card-link card-payments" href="halaman/halaman_pembayaran.php?tab=unpaid&period=<?=h($period_for_dashboard)?>">
+<a class="card card-link card-payments" href="index.php?page=payments&tab=unpaid&period=<?=h($period_for_dashboard)?>">
     <?php if(!$pay_info['exists']): ?>
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
         <div class="card-icon">💳</div>

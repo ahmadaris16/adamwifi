@@ -10,13 +10,15 @@ function ym_valid($s){ return (bool)preg_match('/^\d{4}-\d{2}$/', $s); }
  * Redirect balik ke halaman pembayaran dengan parameter tab/periode/teknisi dan flash message.
  */
 function go_back($tab, $period, $tech = ''){
-  $qs = ['tab'=>$tab ?: 'unpaid','period'=>$period];
+  $qs = ['page'=>'payments','tab'=>$tab ?: 'unpaid','period'=>$period];
   if ($tech !== '') $qs['tech'] = $tech;
-  $url = '../halaman/halaman_pembayaran.php?'.http_build_query($qs);
+  $url = '../index.php?'.http_build_query($qs);
   header('Location: '.$url, true, 303);
   echo '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url='.$url.'"><script>location.replace("'.$url.'")</script>';
   exit;
 }
+
+$isAjax = (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest');
 
 try {
   verify_csrf(); // pastikan request valid
@@ -44,6 +46,9 @@ try {
     $st = $pdo->prepare($sql);
     $ok = $st->execute([$cid, $period, $amount, $paid_by]);
     $_SESSION['flash'] = $ok ? 'Status diubah: DITANDAI SUDAH BAYAR.' : 'Gagal menyimpan.';
+    if ($isAjax) {
+      echo json_encode(['ok'=>$ok, 'message'=>$_SESSION['flash'], 'tab'=>'paid']); exit;
+    }
     go_back('paid', $period, $tech); // setelah mark paid, arahkan ke tab paid
 
   } elseif ($action === 'mark_unpaid') {
@@ -55,6 +60,9 @@ try {
     $st->execute([$cid, $period]);
 
     $_SESSION['flash'] = 'Status diubah: dikembalikan ke BELUM BAYAR.';
+    if ($isAjax) {
+      echo json_encode(['ok'=>true, 'message'=>$_SESSION['flash'], 'tab'=>'unpaid']); exit;
+    }
     go_back('unpaid', $period, $tech);
 
   } elseif ($action === 'reset_period') {
@@ -62,14 +70,23 @@ try {
     $st = $pdo->prepare("UPDATE payments SET paid_at = NULL, paid_by = NULL WHERE period = ?");
     $st->execute([$period]);
     $_SESSION['flash'] = "Reset selesai untuk periode $period: ".$st->rowCount()." data diubah.";
+    if ($isAjax) {
+      echo json_encode(['ok'=>true, 'message'=>$_SESSION['flash'], 'tab'=>'unpaid']); exit;
+    }
     go_back('unpaid', $period, $tech);
 
   } else {
     $_SESSION['flash'] = 'Aksi tidak dikenal.';
+    if ($isAjax) {
+      echo json_encode(['ok'=>false, 'message'=>$_SESSION['flash']]); exit;
+    }
     go_back($tab, $period, $tech);
   }
 
 } catch (Throwable $e) {
   $_SESSION['flash'] = 'Terjadi kesalahan: '.$e->getMessage();
+  if ($isAjax) {
+    echo json_encode(['ok'=>false, 'message'=>$_SESSION['flash']]); exit;
+  }
   go_back($_POST['tab'] ?? 'unpaid', $_POST['period'] ?? date('Y-m'), $_POST['tech'] ?? '');
 }

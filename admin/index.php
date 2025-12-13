@@ -95,8 +95,14 @@ if (table_exists($pdo,'payments')) {
     $pay_info['note'] = 'Kolom paid_at tidak ditemukan.';
   }
   if ($AMT) {
-    $stSum = $pdo->prepare("SELECT COALESCE(SUM($AMT),0) FROM payments WHERE period=?");
-    $stSum->execute([$period_for_dashboard]);
+    if (hascol($pdo,'payments','paid_at')) {
+      $stSum = $pdo->prepare("SELECT COALESCE(SUM($AMT),0) FROM payments WHERE period=? AND paid_at IS NOT NULL");
+      $stSum->execute([$period_for_dashboard]);
+    } else {
+      $stSum = $pdo->prepare("SELECT COALESCE(SUM($AMT),0) FROM payments WHERE period=?");
+      $stSum->execute([$period_for_dashboard]);
+      $pay_info['note'] = trim(($pay_info['note'] ?? '').' Kolom paid_at tidak ada, total diambil dari semua baris.');
+    }
     $pay_info['amount_sum'] = $stSum->fetchColumn();
   }
 }
@@ -214,6 +220,21 @@ if ($page === 'pppoe') {
 </div>
 
 <script src="assets/js/dashboard.js"></script>
+<script>
+// Sidebar animasi hanya sekali per sesi login
+(function(){
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+  const key = 'sidebarAnimated';
+  const already = sessionStorage.getItem(key);
+  if (already) return;
+  sidebar.classList.add('animate-once');
+  sessionStorage.setItem(key, '1');
+  sidebar.addEventListener('animationend', () => {
+    sidebar.classList.remove('animate-once');
+  }, { once: true });
+})();
+</script>
 <!-- Toggle sidebar (layout) -->
 <script>
 (function(){
