@@ -183,6 +183,8 @@ if ($page === 'pppoe') {
       <?php include __DIR__ . "/halaman/halaman_pppoe_status.php"; ?>
     <?php elseif ($page === "pelanggan"): ?>
       <?php include __DIR__ . "/halaman/halaman_pelanggan.php"; ?>
+    <?php elseif ($page === "inventaris"): ?>
+      <?php include __DIR__ . "/halaman/halaman_inventaris.php"; ?>
     <?php else: ?>
       <div class="card card-link card-pppoe">
         <div class="card-title" style="margin:0"><?=h($pageTitle)?></div>

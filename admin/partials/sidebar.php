@@ -27,7 +27,7 @@
       <span class="menu-icon">👥</span>
       <span class="menu-text">Daftar Pelanggan</span>
     </a>
-    <a class="menu-item" href="halaman/halaman_inventaris.php">
+    <a class="menu-item<?= ($page === 'inventaris' ? ' active' : '') ?>" href="index.php?page=inventaris">
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
     </a>

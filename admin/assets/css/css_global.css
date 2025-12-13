@@ -1053,6 +1053,64 @@ body::after {
   background: rgba(251,191,36,0.2);
   color: var(--primary-dark);
 }
+
+/* Filters (halaman pelanggan) */
+.filters{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:0 0 14px;
+}
+.filters input[type="text"]{
+  min-width:260px;
+  max-width:420px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid rgba(251,191,36,0.18);
+  background:rgba(30,41,59,0.9);
+  color:var(--light);
+}
+.filters select{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(251,191,36,0.18);
+  background:rgba(30,41,59,0.9);
+  color:var(--light);
+}
+.filters .btn{ height:42px; display:flex; align-items:center; }
+.filters .xbtn{
+  color:var(--primary);
+  text-decoration:none;
+  font-weight:700;
+  padding:10px 12px;
+}
+
+.summary{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 4px;
+}
+.summary .pill{
+  background:rgba(30,41,59,0.8);
+  border:1px solid rgba(251,191,36,0.12);
+  color:var(--light);
+  padding:10px 12px;
+  border-radius:12px;
+  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.summary .dot{
+  width:8px;height:8px;border-radius:50%;
+  display:inline-block;
+}
+.summary .dot.on{ background:var(--success); }
+.summary .dot.off{ background:var(--danger); }
+.summary .dot.warn{ background:var(--warning); }
+.table-wrap{ margin-top:12px; }
 /* === PPPoE Card — enhancements (no animation changes) === */
 .pppoe-header{
   display:flex;justify-content:space-between;align-items:center;margin-bottom:8px
