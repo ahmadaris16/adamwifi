@@ -1,5 +1,5 @@
 <?php
-// Sidebar untuk layout admin; gunakan menu_active($page, ...) untuk memberi kelas aktif.
+// Sidebar layout
 ?>
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -27,27 +27,31 @@
       <span class="menu-icon">👥</span>
       <span class="menu-text">Daftar Pelanggan</span>
     </a>
+    <a class="menu-item<?= ($page === 'payments' ? ' active' : '') ?>" href="index.php?page=payments">
+      <span class="menu-icon">💳</span>
+      <span class="menu-text">Pembayaran</span>
+    </a>
+    <a class="menu-item<?= ($page === 'reports' ? ' active' : '') ?>" href="index.php?page=reports">
+      <span class="menu-icon">🛠️</span>
+      <span class="menu-text">Job Teknisi</span>
+    </a>
+    <a class="menu-item<?= ($page === 'voucher' ? ' active' : '') ?>" href="index.php?page=voucher">
+      <span class="menu-icon">🎫</span>
+      <span class="menu-text">Kelola Voucher</span>
+    </a>
+    <a class="menu-item<?= ($page === 'keuangan' ? ' active' : '') ?>" href="index.php?page=keuangan">
+      <span class="menu-icon">💰</span>
+      <span class="menu-text">Keuangan</span>
+    </a>
     <a class="menu-item<?= ($page === 'inventaris' ? ' active' : '') ?>" href="index.php?page=inventaris">
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
-    </a>
-    <a class="menu-item<?= ($page === 'reports' ? ' active' : '') ?>" href="index.php?page=reports">
-      <span class="menu-icon">🛠</span>
-      <span class="menu-text">Job Teknisi</span>
-    </a>
-    <a class="menu-item<?= ($page === 'voucher' ? ' active' : '') ?>" href="halaman/halaman_voucher.php">
-      <span class="menu-icon">🎟️</span>
-      <span class="menu-text">Kelola Voucher</span>
-    </a>
-    <a class="menu-item" href="halaman/halaman_pembayaran.php">
-      <span class="menu-icon">💰</span>
-      <span class="menu-text">Keuangan</span>
     </a>
     <a class="menu-item" href="#" onclick="document.getElementById('syncForm').submit();return false;">
       <span class="menu-icon">🔄</span>
       <span class="menu-text">Sinkronkan Pelanggan</span>
     </a>
-    <a class="menu-item<?= menu_active($page, 'auto_link') ?>" href="api/auto_link_pppoe.php">
+    <a class="menu-item<?= menu_active($page, 'auto_link') ?>" href="#" onclick="document.getElementById('autoLinkForm').submit();return false;">
       <span class="menu-icon">⚙️</span>
       <span class="menu-text">Auto-Link PPPoE</span>
     </a>

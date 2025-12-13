@@ -36,13 +36,15 @@ function hascol(PDO $pdo,$t,$c){ $s=$pdo->prepare("SHOW COLUMNS FROM `$t` LIKE ?
 
 $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']);
 $page = $_GET['page'] ?? 'dashboard';
-$allowedPages = ['dashboard','inventaris','reports','voucher','pppoe','pelanggan'];
+$allowedPages = ['dashboard','inventaris','reports','voucher','pppoe','pelanggan','payments','keuangan'];
 if (!in_array($page, $allowedPages, true)) { $page = 'dashboard'; }
 $pageTitles = [
   'dashboard' => 'Dashboard',
   'inventaris'=> 'Inventaris',
   'reports'   => 'Job Teknisi',
   'voucher'   => 'Kelola Voucher',
+  'payments'  => 'Pembayaran',
+  'keuangan'  => 'Keuangan',
   'pppoe'     => 'Status PPPoE',
   'pelanggan' => 'Data Pelanggan',
 ];
@@ -152,6 +154,9 @@ if ($page === 'pppoe') {
     <input type="hidden" name="csrf" value="<?=h($_SESSION['csrf']??'')?>">
     <input type="hidden" name="sync_customers" value="1">
   </form>
+  <form id="autoLinkForm" method="post" style="display:none" action="api/auto_link_pppoe.php">
+    <input type="hidden" name="csrf" value="<?=h($_SESSION['csrf']??'')?>">
+  </form>
 
 
 
@@ -185,6 +190,19 @@ if ($page === 'pppoe') {
       <?php include __DIR__ . "/halaman/halaman_pelanggan.php"; ?>
     <?php elseif ($page === "inventaris"): ?>
       <?php include __DIR__ . "/halaman/halaman_inventaris.php"; ?>
+    <?php elseif ($page === "reports"): ?>
+      <?php include __DIR__ . "/halaman/halaman_job_teknisi.php"; ?>
+    <?php elseif ($page === "voucher"): ?>
+      <?php include __DIR__ . "/halaman/halaman_voucher.php"; ?>
+    <?php elseif ($page === "payments"): ?>
+      <?php include __DIR__ . "/halaman/halaman_pembayaran.php"; ?>
+    <?php elseif ($page === "keuangan"): ?>
+      <div class="card table-card">
+        <div class="table-header">Keuangan</div>
+        <div class="placeholder" style="color:var(--gray); padding:12px 0;">
+          Fitur akan datang.
+        </div>
+      </div>
     <?php else: ?>
       <div class="card card-link card-pppoe">
         <div class="card-title" style="margin:0"><?=h($pageTitle)?></div>

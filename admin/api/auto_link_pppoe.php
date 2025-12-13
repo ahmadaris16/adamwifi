@@ -1,6 +1,10 @@
 <?php
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
 require_once __DIR__ . '/../auth.php'; require_admin();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  header('Location: ../index.php');
+  exit;
+}
 set_time_limit(60);
 
 $PPPOE_TABLE='pppoe_status'; $USER_COL='username';

@@ -89,7 +89,7 @@ document.addEventListener('keydown', (e) => {
   // Alt + R for Job Teknisi
   if (e.altKey && e.key === 'r') {
     e.preventDefault();
-    window.location.href = 'halaman/halaman_job_teknisi.php';
+    window.location.href = 'index.php?page=reports';
   }
   
   // Alt + P for PPPoE

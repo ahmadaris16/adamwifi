@@ -426,6 +426,35 @@ body::after {
   position: relative;
   overflow: hidden;
 }
+.xbtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid rgba(251,191,36,0.35);
+  background:rgba(30,41,59,0.6);
+  color:var(--primary);
+  font-weight:700;
+  text-decoration:none;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.xbtn:hover{
+  border-color:rgba(251,191,36,0.6);
+  color:var(--primary-light);
+  transform:translateY(-1px);
+}
+.xbtn.danger{
+  border-color:rgba(239,68,68,0.5);
+  background:linear-gradient(135deg, rgba(239,68,68,0.15), rgba(220,38,38,0.12));
+  color:#fecaca;
+}
+.xbtn.danger:hover{
+  border-color:rgba(239,68,68,0.8);
+  color:#fff;
+  box-shadow:0 8px 20px rgba(239,68,68,0.25);
+}
 
 /* Bar tombol: semua tombol lebar sama, rapi & responsif */
 .topbar .actions{
@@ -1078,6 +1107,17 @@ body::after {
   background:rgba(30,41,59,0.9);
   color:var(--light);
 }
+.filters input[type="date"],
+.filters input[type="number"]{
+  min-width:150px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(251,191,36,0.18);
+  background:rgba(30,41,59,0.9);
+  color:var(--light);
+  appearance: none;
+  -webkit-appearance: none;
+}
 .filters .btn{ height:42px; display:flex; align-items:center; }
 .filters .xbtn{
   color:var(--primary);
@@ -1111,6 +1151,41 @@ body::after {
 .summary .dot.off{ background:var(--danger); }
 .summary .dot.warn{ background:var(--warning); }
 .table-wrap{ margin-top:12px; }
+
+/* Voucher */
+.voucher-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap:16px;
+  margin-top:12px;
+}
+.voucher-card .card-header{
+  font-weight:800; font-size:18px; margin-bottom:12px;
+  display:flex; align-items:center; gap:8px; color:var(--light);
+  padding-bottom:8px; border-bottom:1px solid rgba(251,191,36,0.12);
+}
+.voucher-row{
+  display:grid;
+  grid-template-columns: 140px 1fr;
+  gap:10px;
+  align-items:center;
+  margin:8px 0;
+}
+.voucher-row label{
+  font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--gray);
+}
+.voucher-row input[type="date"],
+.voucher-row input[type="number"]{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(251,191,36,0.18);
+  background:rgba(30,41,59,0.5);
+  color:var(--light);
+  font-family:inherit;
+}
+.voucher-actions{ margin-top:10px; display:flex; justify-content:flex-end; }
+.voucher-actions .btn{ height:40px; display:inline-flex; align-items:center; }
 /* === PPPoE Card — enhancements (no animation changes) === */
 .pppoe-header{
   display:flex;justify-content:space-between;align-items:center;margin-bottom:8px
