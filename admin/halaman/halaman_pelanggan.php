@@ -78,9 +78,22 @@ foreach ($rows as $r){
 $tot = max(1, $total);
 $bill_pct = max(0, min(100, round($tot_bill/$tot*100)));
 $free_pct = max(0, min(100, round($tot_free/$tot*100)));
+$csrf = $_SESSION['csrf'] ?? '';
 ?>
 
 <div class="card">
+  <!-- Toolbar aksi cepat: Sinkronkan & Auto-Link -->
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+    <form method="post" action="api/sinkron_pelanggan.php" style="margin:0">
+      <input type="hidden" name="csrf" value="<?=h($csrf)?>">
+      <button class="btn" type="submit" onclick="return confirm('Sinkronkan pelanggan baru dari PPPoE?')">Sinkronkan Pelanggan</button>
+    </form>
+    <form method="post" action="api/auto_link_pppoe.php" style="margin:0">
+      <input type="hidden" name="csrf" value="<?=h($csrf)?>">
+      <button class="btn" type="submit" onclick="return confirm('Hubungkan otomatis PPPoE ke pelanggan?')">Auto-Link PPPoE</button>
+    </form>
+  </div>
+
   <!-- Tabs: Semua / Ditagih / Gratis -->
   <div class="tabbar">
     <a class="tab <?= ($gratis==='')?'active':'' ?>" href="<?= h(qurl(['gratis'=>''])) ?>">

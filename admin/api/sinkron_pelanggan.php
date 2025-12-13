@@ -16,12 +16,12 @@ $PPPOE_TABLE='pppoe_status'; $USER_COL='username';
 // CSRF
 if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) {
   $_SESSION['flash'] = 'Sinkron gagal: token tidak valid.';
-  header('Location: ../index.php'); exit;
+  header('Location: ../index.php?page=pelanggan'); exit;
 }
 
 // Pastikan tabel ada
 if (!table_exists($pdo, $PPPOE_TABLE) || !table_exists($pdo, 'customers')) {
-  $_SESSION['flash'] = 'Sinkron gagal: tabel tidak ditemukan.'; header('Location: ../index.php'); exit;
+  $_SESSION['flash'] = 'Sinkron gagal: tabel tidak ditemukan.'; header('Location: ../index.php?page=pelanggan'); exit;
 }
 
 // Ambil username baru dari pppoe_status yang belum ada di customers
@@ -32,7 +32,7 @@ $sqlNew = "SELECT DISTINCT s.`$USER_COL` AS u
 $newUsers = $pdo->query($sqlNew)->fetchAll(PDO::FETCH_COLUMN);
 
 if (!$newUsers) {
-  $_SESSION['flash'] = 'Tidak ada username baru untuk disinkronkan.'; header('Location: ../index.php'); exit;
+  $_SESSION['flash'] = 'Tidak ada username baru untuk disinkronkan.'; header('Location: ../index.php?page=pelanggan'); exit;
 }
 
 // Siapkan kolom aman yang tersedia di customers
@@ -64,8 +64,8 @@ try {
 } catch (Throwable $e) {
   $pdo->rollBack();
   $_SESSION['flash'] = 'Sinkron gagal: '.$e->getMessage();
-  header('Location: ../index.php'); exit;
+  header('Location: ../index.php?page=pelanggan'); exit;
 }
 
 $_SESSION['flash'] = "Sinkron selesai: {$ins} pelanggan baru ditambahkan.";
-header('Location: ../index.php'); exit;
+header('Location: ../index.php?page=pelanggan'); exit;

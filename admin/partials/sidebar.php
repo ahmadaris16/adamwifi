@@ -47,14 +47,6 @@
       <span class="menu-icon">📦</span>
       <span class="menu-text">Inventaris</span>
     </a>
-    <a class="menu-item" href="#" onclick="document.getElementById('syncForm').submit();return false;">
-      <span class="menu-icon">🔄</span>
-      <span class="menu-text">Sinkronkan Pelanggan</span>
-    </a>
-    <a class="menu-item<?= menu_active($page, 'auto_link') ?>" href="#" onclick="document.getElementById('autoLinkForm').submit();return false;">
-      <span class="menu-icon">⚙️</span>
-      <span class="menu-text">Auto-Link PPPoE</span>
-    </a>
   </nav>
 
   <div class="sidebar-footer">

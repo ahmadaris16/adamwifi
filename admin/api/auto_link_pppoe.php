@@ -72,4 +72,4 @@ if ($linked === 0 && $remaining === 0) {
 }
 
 $_SESSION['flash'] = $msg;
-header('Location: ../halaman/halaman_pppoe_status.php?tab=all'); exit;
+header('Location: ../index.php?page=pelanggan'); exit;
