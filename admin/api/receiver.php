@@ -132,7 +132,8 @@ if (isset($_GET['user'], $_GET['status'])) {
         }
         sendFCMv1($access, $project_id, $tokens, $title, $body);
         // simpan sejarah singkat
-        $koneksi->prepare("INSERT INTO notification_history (message) VALUES (?)")->execute([$body]);
+            $koneksi->prepare("INSERT INTO notification_history (message) VALUES (?)")->execute([$body]);
+            $koneksi->exec("DELETE FROM notification_history WHERE id NOT IN (SELECT id FROM (SELECT id FROM notification_history ORDER BY id DESC LIMIT 100) t)");
       }
     }
 

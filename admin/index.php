@@ -214,7 +214,7 @@ if ($page === 'pppoe') {
 
 <div class="g-toast-wrap" id="gToastWrap" aria-live="polite" aria-atomic="true" style="display:none">
   <div class="g-toast" id="gToastCard">
-    <div class="g-toast-icon" id="gToastIcon">???</div>
+    <div class="g-toast-icon" id="gToastIcon">✓</div>
     <div class="g-toast-text" id="gToastText">Flash</div>
   </div>
 </div>
@@ -231,7 +231,7 @@ if ($page === 'pppoe') {
     if(!wrap || !card || !text || !icon) return;
     clearTimeout(timer);
     card.classList.remove("error");
-    icon.textContent = "???";
+    icon.textContent = "✓";
     if(type === "danger" || type === "error"){
       card.classList.add("error");
       icon.textContent = "!";
@@ -352,5 +352,3 @@ document.addEventListener('DOMContentLoaded', function(){
 
 </body>
 </html>
-
-
